@@ -19,5 +19,5 @@ class Server {
     }
 }
 exports.Server = Server;
-Server.PORT = 8010;
+Server.PORT = 80;
 //# sourceMappingURL=server.js.map

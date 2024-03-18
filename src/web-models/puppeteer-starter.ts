@@ -11,7 +11,8 @@ export abstract class PuppeteerStarter {
     public async start() {
         this.browser = await puppeteer.launch({
             defaultViewport: null,
-            headless: true
+            headless: true,
+            args: ["--no-sandbox"]
         });
         this.page = await this.browser.newPage();
         await this.page.goto(this.url, {

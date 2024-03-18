@@ -22,7 +22,8 @@ class PuppeteerStarter {
         return __awaiter(this, void 0, void 0, function* () {
             this.browser = yield puppeteer_1.default.launch({
                 defaultViewport: null,
-                headless: true
+                headless: true,
+                args: ["--no-sandbox"]
             });
             this.page = yield this.browser.newPage();
             yield this.page.goto(this.url, {

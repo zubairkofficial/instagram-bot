@@ -2,7 +2,7 @@ import express, { Express } from "express";
 
 export class Server {
     public app: Express;
-    public static PORT = 8010;
+    public static PORT = 80;
 
     constructor() {
         this.app = express();
