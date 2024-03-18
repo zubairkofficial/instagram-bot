@@ -29,9 +29,11 @@ export class Bot extends PuppeteerStarter {
 
         await this.page.screenshot({ path: 'screenshot.jpg' });
         await loginButton.click();
-        await this.page.waitForNavigation({
-            waitUntil: 'networkidle0',
-        });
+        try {
+            await this.page.waitForNavigation({
+                waitUntil: 'networkidle0',
+            });
+        } catch {}
     }
 
     public async close() {

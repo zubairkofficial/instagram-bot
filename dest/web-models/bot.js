@@ -33,9 +33,12 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             yield passwordInput.type(this.data.password);
             yield this.page.screenshot({ path: 'screenshot.jpg' });
             yield loginButton.click();
-            yield this.page.waitForNavigation({
-                waitUntil: 'networkidle0',
-            });
+            try {
+                yield this.page.waitForNavigation({
+                    waitUntil: 'networkidle0',
+                });
+            }
+            catch (_a) { }
         });
     }
     close() {
