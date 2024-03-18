@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "outDir": "dest",
+        "target": "ES6",
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext"
+    },
+    "include": ["src"]
+}
