@@ -1,3 +1,4 @@
+import { writeFile } from 'fs/promises';
 import { InstagramData } from "./instagram-data";
 import { PuppeteerStarter } from "./puppeteer-starter";
 import { Follower } from './follower';
@@ -35,6 +36,10 @@ export class Bot extends PuppeteerStarter {
         } catch {
             console.log("Error in waiting for navigation after login. See screenshot.");
             await this.page.screenshot({ path: 'screenshot.jpg' });
+            writeFile(
+                'body.html',
+                await this.page.evaluate(() => document.body.innerHTML)
+            );
         }
     }
 

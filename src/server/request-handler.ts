@@ -26,6 +26,6 @@ export class RequestHandler extends Server {
     public routeForDebugging() {
         this.app.get('/screenshot', (req, res) => {
             res.download('screenshot.jpg');
-        })
+        });
     }
 }
