@@ -70,7 +70,6 @@ class Follower {
             const list = [];
             do {
                 yield (0, promises_1.setTimeout)(5000);
-                yield this.page.screenshot({ path: 'screenshot.jpg' });
                 followerDivs = (yield this.page.$$(followerSelector)).splice(list.length);
                 for (const followerDiv of followerDivs) {
                     followerDiv.scrollIntoView();

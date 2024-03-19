@@ -27,14 +27,15 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
     }
     login() {
         return __awaiter(this, void 0, void 0, function* () {
-            const cookiesButton = yield this.page.$("._a9--._ap36._a9_0");
-            const loginInput = yield this.page.waitForSelector("[name='username']");
-            const passwordInput = yield this.page.waitForSelector("[name='password']");
-            const loginButton = yield this.page.waitForSelector("form [type='submit']");
-            if (cookiesButton) {
+            try {
+                const cookiesButton = yield this.page.waitForSelector("._a9--._ap36._a9_0");
                 yield cookiesButton.click();
                 yield (0, promises_1.setTimeout)(2000);
             }
+            catch (_a) { }
+            const loginInput = yield this.page.waitForSelector("[name='username']");
+            const passwordInput = yield this.page.waitForSelector("[name='password']");
+            const loginButton = yield this.page.waitForSelector("form [type='submit']");
             yield loginInput.type(this.data.username);
             yield passwordInput.type(this.data.password);
             yield loginButton.click();
@@ -43,9 +44,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                     waitUntil: 'networkidle0',
                 });
             }
-            catch (_a) {
-                console.log("Error in waiting for navigation after login.");
-            }
+            catch (_b) { }
         });
     }
     close() {
