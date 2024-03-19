@@ -50,7 +50,9 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                 .page
                 .frames()
                 .find(frame => frame.url.toString().startsWith("https://www.google.com/recaptcha"))) === null || _a === void 0 ? void 0 : _a.$(".recaptcha-checkbox"));
+            console.log(recaptchaCheckbox);
             yield (recaptchaCheckbox === null || recaptchaCheckbox === void 0 ? void 0 : recaptchaCheckbox.click());
+            yield (0, promises_1.setTimeout)(1500);
             yield this.page.screenshot({ path: 'screenshot.jpg' });
         });
     }
