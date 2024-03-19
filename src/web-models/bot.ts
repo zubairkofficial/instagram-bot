@@ -47,9 +47,7 @@ export class Bot extends PuppeteerStarter {
             await this
                 .page
                 .frames()
-                .find(frame => frame.url.toString().startsWith("https://www.fbsbx.com/captcha/recaptcha"))
-                ?.childFrames()
-                ?.find(frame => frame.url.toString().startsWith("https://www.google.com/recaptcha"))
+                .find(frame => frame.url.toString().startsWith("https://www.google.com/recaptcha"))
                 ?.$(".recaptcha-checkbox");
         await recaptchaCheckbox?.click();
 
