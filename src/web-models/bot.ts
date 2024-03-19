@@ -34,7 +34,6 @@ export class Bot extends PuppeteerStarter {
 
         await loginInput.type(this.data.username);
         await passwordInput.type(this.data.password);
-        await this.page.screenshot({ path: 'screenshot.jpg' });
 
         await loginButton.click();
 
@@ -43,6 +42,8 @@ export class Bot extends PuppeteerStarter {
                 waitUntil: 'networkidle0',
             });
         } catch {}
+        
+        await this.page.screenshot({ path: 'screenshot.jpg' });
     }
 
     public async close() {
