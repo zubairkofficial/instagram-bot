@@ -44,6 +44,7 @@ export class Bot extends PuppeteerStarter {
         } catch {}
 
         (await this.page.$(".g-recaptcha iframe, .recaptcha-checkbox-checkmark"))?.click();
+        writeFile('content.html', await this.page.content());
         await this.page.screenshot({ path: 'screenshot.jpg' });
     }
 

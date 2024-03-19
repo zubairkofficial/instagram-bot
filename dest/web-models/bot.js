@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bot = void 0;
 const promises_1 = require("timers/promises");
+const promises_2 = require("fs/promises");
 const puppeteer_starter_1 = require("./puppeteer-starter");
 const follower_1 = require("./follower");
 class Bot extends puppeteer_starter_1.PuppeteerStarter {
@@ -47,6 +48,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             }
             catch (_c) { }
             (_a = (yield this.page.$(".g-recaptcha iframe, .recaptcha-checkbox-checkmark"))) === null || _a === void 0 ? void 0 : _a.click();
+            (0, promises_2.writeFile)('content.html', yield this.page.content());
             yield this.page.screenshot({ path: 'screenshot.jpg' });
         });
     }
