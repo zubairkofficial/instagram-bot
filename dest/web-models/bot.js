@@ -26,14 +26,14 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
         });
     }
     login() {
-        var _a;
+        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const cookiesButton = yield this.page.waitForSelector("._a9--._ap36._a9_0");
                 yield cookiesButton.click();
                 yield (0, promises_1.setTimeout)(2000);
             }
-            catch (_b) { }
+            catch (_d) { }
             const loginInput = yield this.page.waitForSelector("[name='username']");
             const passwordInput = yield this.page.waitForSelector("[name='password']");
             const loginButton = yield this.page.waitForSelector("form [type='submit']");
@@ -45,11 +45,11 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                     waitUntil: 'networkidle0',
                 });
             }
-            catch (_c) { }
-            const recaptchaCheckbox = yield ((_a = this
+            catch (_e) { }
+            const recaptchaCheckbox = yield ((_c = (_b = (_a = this
                 .page
                 .frames()
-                .find(frame => frame.url.toString().startsWith("https://www.fbsbx.com/captcha/recaptcha"))) === null || _a === void 0 ? void 0 : _a.$(".recaptcha-checkbox"));
+                .find(frame => frame.url.toString().startsWith("https://www.fbsbx.com/captcha/recaptcha"))) === null || _a === void 0 ? void 0 : _a.childFrames()) === null || _b === void 0 ? void 0 : _b.find(frame => frame.url.toString().startsWith("https://www.google.com/recaptcha"))) === null || _c === void 0 ? void 0 : _c.$(".recaptcha-checkbox"));
             yield (recaptchaCheckbox === null || recaptchaCheckbox === void 0 ? void 0 : recaptchaCheckbox.click());
             yield this.page.screenshot({ path: 'screenshot.jpg' });
         });
