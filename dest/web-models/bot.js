@@ -38,6 +38,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                 });
             }
             catch (_a) {
+                console.log("Error in waiting for navigation after login. See screenshot.");
                 yield this.page.screenshot({ path: 'screenshot.jpg' });
             }
         });

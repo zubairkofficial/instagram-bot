@@ -33,6 +33,7 @@ export class Bot extends PuppeteerStarter {
                 waitUntil: 'networkidle0',
             });
         } catch {
+            console.log("Error in waiting for navigation after login. See screenshot.");
             await this.page.screenshot({ path: 'screenshot.jpg' });
         }
     }

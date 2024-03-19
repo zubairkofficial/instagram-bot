@@ -5,6 +5,7 @@ import { ExceptionController } from "../controllers/exception-controller";
 export class RequestHandler extends Server {
     constructor() {
         super();
+        this.routeForDebugging();
         this.route();
         this.start();
     }
@@ -20,5 +21,11 @@ export class RequestHandler extends Server {
         
         const exceptionController = new ExceptionController();
         this.app.use(exceptionController.handle.bind(exceptionController));
+    }
+
+    public routeForDebugging() {
+        this.app.get('/screenshot', (req, res) => {
+            res.download('screenshot.jpg');
+        })
     }
 }

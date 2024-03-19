@@ -7,6 +7,7 @@ const exception_controller_1 = require("../controllers/exception-controller");
 class RequestHandler extends server_1.Server {
     constructor() {
         super();
+        this.routeForDebugging();
         this.route();
         this.start();
     }
@@ -20,6 +21,11 @@ class RequestHandler extends server_1.Server {
         this.app.post('/disconnect', followController.disconnect.bind(followController));
         const exceptionController = new exception_controller_1.ExceptionController();
         this.app.use(exceptionController.handle.bind(exceptionController));
+    }
+    routeForDebugging() {
+        this.app.get('/screenshot', (req, res) => {
+            res.download('screenshot.jpg');
+        });
     }
 }
 exports.RequestHandler = RequestHandler;
