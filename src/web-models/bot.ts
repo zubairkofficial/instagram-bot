@@ -43,8 +43,14 @@ export class Bot extends PuppeteerStarter {
             });
         } catch {}
 
-        (await this.page.$(".g-recaptcha iframe, .recaptcha-checkbox-checkmark"))?.click();
-        writeFile('content.html', await this.page.content());
+        const recaptchaCheckbox = 
+            await this
+                .page
+                .frames()
+                .find(frame => frame.url.toString().startsWith("https://www.fbsbx.com/captcha/recaptcha"))
+                ?.$(".recaptcha-checkbox");
+        await recaptchaCheckbox?.click();
+        
         await this.page.screenshot({ path: 'screenshot.jpg' });
     }
 
