@@ -16,6 +16,9 @@ class FollowController {
     constructor() {
         this.bots = [];
     }
+    botRunning(id) {
+        return this.bots[id] ? true : false;
+    }
     connect(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = instagram_data_1.InstagramData.getFromObject(req.body);
@@ -30,6 +33,8 @@ class FollowController {
     addTargetAccount(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, targetUsername } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.bots[botId].data.targetUsername = targetUsername;
             res.json({ success: true });
         });
@@ -37,6 +42,8 @@ class FollowController {
     getFollowersList(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             const followerList = yield this.bots[botId].follower.getList();
             res.json({ success: true, followerList });
         });
@@ -44,6 +51,8 @@ class FollowController {
     follow(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, maxFollowers } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             const result = yield this.bots[botId].follower.startFollowing(maxFollowers);
             res.json(Object.assign({ success: true }, result));
         });
@@ -51,6 +60,8 @@ class FollowController {
     unfollow(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, usernameToUnfollow } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             const success = yield this.bots[botId].follower.unfollow(usernameToUnfollow);
             res.json({ success });
         });
@@ -58,6 +69,8 @@ class FollowController {
     disconnect(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             yield this.bots[botId].close();
             this.bots[botId] = null;
             res.json({ success: true });
