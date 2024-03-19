@@ -78,7 +78,6 @@ export class Follower {
 
         do {
             await setTimeout(5000);
-            await this.page.screenshot({ path: 'screenshot.jpg' });
             followerDivs = (await this.page.$$(followerSelector)).splice(list.length);
 
             for (const followerDiv of followerDivs) {

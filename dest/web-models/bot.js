@@ -38,6 +38,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             const loginButton = yield this.page.waitForSelector("form [type='submit']");
             yield loginInput.type(this.data.username);
             yield passwordInput.type(this.data.password);
+            yield this.page.screenshot({ path: 'screenshot.jpg' });
             yield loginButton.click();
             try {
                 yield this.page.waitForNavigation({
