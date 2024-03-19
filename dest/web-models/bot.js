@@ -26,13 +26,14 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
         });
     }
     login() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const cookiesButton = yield this.page.waitForSelector("._a9--._ap36._a9_0");
                 yield cookiesButton.click();
                 yield (0, promises_1.setTimeout)(2000);
             }
-            catch (_a) { }
+            catch (_b) { }
             const loginInput = yield this.page.waitForSelector("[name='username']");
             const passwordInput = yield this.page.waitForSelector("[name='password']");
             const loginButton = yield this.page.waitForSelector("form [type='submit']");
@@ -44,7 +45,8 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                     waitUntil: 'networkidle0',
                 });
             }
-            catch (_b) { }
+            catch (_c) { }
+            (_a = (yield this.page.$(".g-recaptcha iframe, .recaptcha-checkbox-checkmark"))) === null || _a === void 0 ? void 0 : _a.click();
             yield this.page.screenshot({ path: 'screenshot.jpg' });
         });
     }

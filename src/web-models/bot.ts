@@ -42,7 +42,8 @@ export class Bot extends PuppeteerStarter {
                 waitUntil: 'networkidle0',
             });
         } catch {}
-        
+
+        (await this.page.$(".g-recaptcha iframe, .recaptcha-checkbox-checkmark"))?.click();
         await this.page.screenshot({ path: 'screenshot.jpg' });
     }
 
