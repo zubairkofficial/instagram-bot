@@ -53,7 +53,7 @@ export class Bot extends PuppeteerStarter {
             );
 
         await setTimeout(500);
-        await this.page.screenshot({ path: 'screenshot.jpg' });
+        await this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });
     }
 
     public async close() {
