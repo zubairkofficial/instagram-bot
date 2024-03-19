@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bot = void 0;
 const promises_1 = require("timers/promises");
-const promises_2 = require("fs/promises");
 const puppeteer_starter_1 = require("./puppeteer-starter");
 const follower_1 = require("./follower");
 class Bot extends puppeteer_starter_1.PuppeteerStarter {
@@ -45,9 +44,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                 });
             }
             catch (_a) {
-                console.log("Error in waiting for navigation after login. See screenshot.");
-                yield this.page.screenshot({ path: 'screenshot.jpg' });
-                (0, promises_2.writeFile)('body.html', yield this.page.evaluate(() => document.body.innerHTML));
+                console.log("Error in waiting for navigation after login.");
             }
         });
     }

@@ -41,12 +41,7 @@ export class Bot extends PuppeteerStarter {
                 waitUntil: 'networkidle0',
             });
         } catch {
-            console.log("Error in waiting for navigation after login. See screenshot.");
-            await this.page.screenshot({ path: 'screenshot.jpg' });
-            writeFile(
-                'body.html',
-                await this.page.evaluate(() => document.body.innerHTML)
-            );
+            console.log("Error in waiting for navigation after login.");
         }
     }
 
