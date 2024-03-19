@@ -47,12 +47,11 @@ export class Bot extends PuppeteerStarter {
             await this
                 .page
                 .frames()
-                .find(frame => frame.url().toString().startsWith("https://www.google.com/recaptcha"))
+                .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
                 ?.$(".recaptcha-checkbox");
             await recaptchaCheckbox?.click();
-            console.log(this.page.frames().map(frame => frame.url().toString()));
 
-        await setTimeout(1500);
+        await setTimeout(500);
         await this.page.screenshot({ path: 'screenshot.jpg' });
     }
 
