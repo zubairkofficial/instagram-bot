@@ -1,4 +1,6 @@
-import puppeteer, { Browser, Page } from "puppeteer";
+import { Browser, Page } from "puppeteer";
+import puppeteer from "puppeteer-extra";
+import stealthPlugin from "puppeteer-extra-plugin-stealth";
 
 export abstract class PuppeteerStarter {
     public browser: Browser;
@@ -9,6 +11,7 @@ export abstract class PuppeteerStarter {
     ) {}
 
     public async start() {
+        puppeteer.use(stealthPlugin());
         this.browser = await puppeteer.launch({
             defaultViewport: null,
             headless: true,

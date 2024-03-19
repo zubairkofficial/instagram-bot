@@ -13,14 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PuppeteerStarter = void 0;
-const puppeteer_1 = __importDefault(require("puppeteer"));
+const puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
+const puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
 class PuppeteerStarter {
     constructor(url) {
         this.url = url;
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.browser = yield puppeteer_1.default.launch({
+            puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
+            this.browser = yield puppeteer_extra_1.default.launch({
                 defaultViewport: null,
                 headless: true,
                 args: ["--no-sandbox", "--disable-blink-features=AutomationControlled"]
