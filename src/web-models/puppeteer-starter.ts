@@ -12,7 +12,7 @@ export abstract class PuppeteerStarter {
         this.browser = await puppeteer.launch({
             defaultViewport: null,
             headless: true,
-            args: ["--no-sandbox"]
+            args: ["--no-sandbox", "--disable-blink-features=AutomationControlled"]
         });
         this.page = await this.browser.newPage();
         await this.page.goto(this.url, {

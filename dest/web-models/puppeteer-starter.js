@@ -23,7 +23,7 @@ class PuppeteerStarter {
             this.browser = yield puppeteer_1.default.launch({
                 defaultViewport: null,
                 headless: true,
-                args: ["--no-sandbox"]
+                args: ["--no-sandbox", "--disable-blink-features=AutomationControlled"]
             });
             this.page = yield this.browser.newPage();
             yield this.page.goto(this.url, {

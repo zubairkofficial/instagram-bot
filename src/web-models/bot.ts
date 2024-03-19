@@ -27,13 +27,14 @@ export class Bot extends PuppeteerStarter {
         await loginInput.type(this.data.username);
         await passwordInput.type(this.data.password);
 
-        await this.page.screenshot({ path: 'screenshot.jpg' });
         await loginButton.click();
         try {
             await this.page.waitForNavigation({
                 waitUntil: 'networkidle0',
             });
-        } catch {}
+        } catch {
+            await this.page.screenshot({ path: 'screenshot.jpg' });
+        }
     }
 
     public async close() {
