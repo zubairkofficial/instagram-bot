@@ -1,3 +1,4 @@
+import { setTimeout } from 'timers/promises';
 import { writeFile } from 'fs/promises';
 import { InstagramData } from "./instagram-data";
 import { PuppeteerStarter } from "./puppeteer-starter";
@@ -26,7 +27,11 @@ export class Bot extends PuppeteerStarter {
         const passwordInput = await this.page.waitForSelector("[name='password']");
         const loginButton = await this.page.waitForSelector("form [type='submit']");
 
-        if (cookiesButton) await cookiesButton.click();
+        if (cookiesButton) {
+            await cookiesButton.click();
+            await setTimeout(2000);
+        }
+
         await loginInput.type(this.data.username);
         await passwordInput.type(this.data.password);
 

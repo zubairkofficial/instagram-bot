@@ -10,7 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bot = void 0;
-const promises_1 = require("fs/promises");
+const promises_1 = require("timers/promises");
+const promises_2 = require("fs/promises");
 const puppeteer_starter_1 = require("./puppeteer-starter");
 const follower_1 = require("./follower");
 class Bot extends puppeteer_starter_1.PuppeteerStarter {
@@ -31,8 +32,10 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             const loginInput = yield this.page.waitForSelector("[name='username']");
             const passwordInput = yield this.page.waitForSelector("[name='password']");
             const loginButton = yield this.page.waitForSelector("form [type='submit']");
-            if (cookiesButton)
+            if (cookiesButton) {
                 yield cookiesButton.click();
+                yield (0, promises_1.setTimeout)(2000);
+            }
             yield loginInput.type(this.data.username);
             yield passwordInput.type(this.data.password);
             yield loginButton.click();
@@ -44,7 +47,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             catch (_a) {
                 console.log("Error in waiting for navigation after login. See screenshot.");
                 yield this.page.screenshot({ path: 'screenshot.jpg' });
-                (0, promises_1.writeFile)('body.html', yield this.page.evaluate(() => document.body.innerHTML));
+                (0, promises_2.writeFile)('body.html', yield this.page.evaluate(() => document.body.innerHTML));
             }
         });
     }
