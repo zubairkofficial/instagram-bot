@@ -26,7 +26,7 @@ export class Bot extends PuppeteerStarter {
             const cookiesButton = await this.page.waitForSelector("._a9--._ap36._a9_0");
             await cookiesButton.click();
             await setTimeout(2000);
-        } catch {}
+        } catch { }
 
         const loginInput = await this.page.waitForSelector("[name='username']");
         const passwordInput = await this.page.waitForSelector("[name='password']");
@@ -41,7 +41,7 @@ export class Bot extends PuppeteerStarter {
             await this.page.waitForNavigation({
                 waitUntil: 'networkidle0',
             });
-        } catch {}
+        } catch { }
 
         // await this
         //     .page
@@ -51,7 +51,12 @@ export class Bot extends PuppeteerStarter {
         //     ?.then(
         //         button => button.click()
         //     );
-        await this.page.solveRecaptchas();
+        // await this.page.solveRecaptchas();
+        await this
+            .page
+            .frames()
+            .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
+            .solveRecaptchas();
 
         await setTimeout(500);
         await this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });

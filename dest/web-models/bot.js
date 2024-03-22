@@ -53,7 +53,12 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             //     ?.then(
             //         button => button.click()
             //     );
-            yield this.page.solveRecaptchas();
+            // await this.page.solveRecaptchas();
+            yield this
+                .page
+                .frames()
+                .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
+                .solveRecaptchas();
             yield (0, promises_1.setTimeout)(500);
             yield this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });
         });
