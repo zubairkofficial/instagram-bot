@@ -1,6 +1,7 @@
 import { Server } from "./server";
 import { FollowController } from "../controllers/follow-controller";
 import { ExceptionController } from "../controllers/exception-controller";
+import { AdsController } from "../controllers/ads-controller";
 
 export class RequestHandler extends Server {
     constructor() {
@@ -18,6 +19,11 @@ export class RequestHandler extends Server {
         this.app.post('/follow', followController.follow.bind(followController));
         this.app.post('/unfollow', followController.unfollow.bind(followController));
         this.app.post('/disconnect', followController.disconnect.bind(followController));
+
+        const adsController = new AdsController();
+        this.app.post('/run-ad', adsController.runAd.bind(adsController));
+        this.app.post('/schedule-ad', adsController.scheduleAd.bind(adsController));
+        this.app.get('/analytics', adsController.getAnalytics.bind(adsController));
         
         const exceptionController = new ExceptionController();
         this.app.use(exceptionController.handle.bind(exceptionController));

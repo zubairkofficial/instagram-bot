@@ -26,14 +26,13 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
         });
     }
     login() {
-        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const cookiesButton = yield this.page.waitForSelector("._a9--._ap36._a9_0");
                 yield cookiesButton.click();
                 yield (0, promises_1.setTimeout)(2000);
             }
-            catch (_c) { }
+            catch (_a) { }
             const loginInput = yield this.page.waitForSelector("[name='username']");
             const passwordInput = yield this.page.waitForSelector("[name='password']");
             const loginButton = yield this.page.waitForSelector("form [type='submit']");
@@ -45,11 +44,16 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                     waitUntil: 'networkidle0',
                 });
             }
-            catch (_d) { }
-            yield ((_b = (_a = this
-                .page
-                .frames()
-                .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))) === null || _a === void 0 ? void 0 : _a.$(".recaptcha-checkbox")) === null || _b === void 0 ? void 0 : _b.then(button => button.click()));
+            catch (_b) { }
+            // await this
+            //     .page
+            //     .frames()
+            //     .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
+            //     ?.$(".recaptcha-checkbox")
+            //     ?.then(
+            //         button => button.click()
+            //     );
+            yield this.page.solveRecaptchas();
             yield (0, promises_1.setTimeout)(500);
             yield this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });
         });

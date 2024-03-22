@@ -4,6 +4,7 @@ exports.RequestHandler = void 0;
 const server_1 = require("./server");
 const follow_controller_1 = require("../controllers/follow-controller");
 const exception_controller_1 = require("../controllers/exception-controller");
+const ads_controller_1 = require("../controllers/ads-controller");
 class RequestHandler extends server_1.Server {
     constructor() {
         super();
@@ -19,6 +20,10 @@ class RequestHandler extends server_1.Server {
         this.app.post('/follow', followController.follow.bind(followController));
         this.app.post('/unfollow', followController.unfollow.bind(followController));
         this.app.post('/disconnect', followController.disconnect.bind(followController));
+        const adsController = new ads_controller_1.AdsController();
+        this.app.post('/run-ad', adsController.runAd.bind(adsController));
+        this.app.post('/schedule-ad', adsController.scheduleAd.bind(adsController));
+        this.app.get('/analytics', adsController.getAnalytics.bind(adsController));
         const exceptionController = new exception_controller_1.ExceptionController();
         this.app.use(exceptionController.handle.bind(exceptionController));
     }

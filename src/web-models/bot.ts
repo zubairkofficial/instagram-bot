@@ -43,14 +43,15 @@ export class Bot extends PuppeteerStarter {
             });
         } catch {}
 
-        await this
-            .page
-            .frames()
-            .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
-            ?.$(".recaptcha-checkbox")
-            ?.then(
-                button => button.click()
-            );
+        // await this
+        //     .page
+        //     .frames()
+        //     .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
+        //     ?.$(".recaptcha-checkbox")
+        //     ?.then(
+        //         button => button.click()
+        //     );
+        await this.page.solveRecaptchas();
 
         await setTimeout(500);
         await this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });

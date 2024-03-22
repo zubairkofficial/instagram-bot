@@ -15,13 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PuppeteerStarter = void 0;
 const puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
 const puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
+const puppeteer_extra_plugin_recaptcha_1 = __importDefault(require("puppeteer-extra-plugin-recaptcha"));
 class PuppeteerStarter {
     constructor(url) {
         this.url = url;
     }
+    usePlugins() {
+        puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
+        puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_recaptcha_1.default)({
+            provider: {
+                id: '2captcha',
+                token: '833f14594793c869f4a57f2b6d408cc6' // REPLACE THIS WITH YOUR OWN 2CAPTCHA API KEY ⚡
+            },
+            visualFeedback: true // colorize reCAPTCHAs (violet = detected, green = solved)
+        }));
+    }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
-            puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
             this.browser = yield puppeteer_extra_1.default.launch({
                 defaultViewport: null,
                 headless: true,
