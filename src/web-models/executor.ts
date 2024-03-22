@@ -6,30 +6,10 @@ interface IFollowingUser {
     buttonText: string
 }
 
-export class Follower {
-    protected url: string;
+export abstract class Executor {
+    protected abstract page: Page;
 
-    constructor(
-        protected page: Page,
-        protected targetUsername: string,
-    ) {
-        this.url = `https://www.instagram.com/${this.targetUsername}/followers`
-    }
-
-    public async goToPage() {
-        let currentUrl = this.page.url();
-        if (currentUrl.endsWith('/')) currentUrl = currentUrl.substring(0, currentUrl.length - 1);
-        if (this.url === currentUrl) return;
-
-        await this.page.goto(this.url, {
-            waitUntil: 'networkidle0',
-        });
-    }
-
-    public async startFollowing(maxFollowers: number) {
-        await this.goToPage();
-        await setTimeout(3000);
-
+    protected async follow(maxFollowers: number) {
         const buttonsSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3 button";
 
         let followedCount = 0, nowFollowed = 0;
@@ -69,9 +49,7 @@ export class Follower {
         return { nowFollowed, followedAccounts };
     }
 
-    public async getList() {
-        await this.goToPage();
-
+    protected async list() {
         const followerSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3";
         let followerDivs: ElementHandle<Element>[] = [];
         const list: IFollowingUser[] = [];
@@ -97,9 +75,7 @@ export class Follower {
         return list;
     }
 
-    public async unfollow(usernameToUnfollow: string) {
-        await this.goToPage();
-
+    protected async unfollow(usernameToUnfollow: string) {
         const followerSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3";
         let followerDivs: ElementHandle<Element>[] = [];
         let matchedUsers = 0;

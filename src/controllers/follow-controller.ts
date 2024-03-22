@@ -25,6 +25,14 @@ export interface IDisconnectBody {
     botId: number
 }
 
+export interface IMyFollowingsBody {
+    botId: number
+}
+
+export interface IMyFollowersBody {
+    botId: number
+}
+
 export class FollowController {
     private bots: Bot[] = [];
 
@@ -47,7 +55,7 @@ export class FollowController {
         const { botId, targetUsername } = req.body as IAddTargetAccountBody;
         if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.bots[botId].data.targetUsername = targetUsername;
+        this.bots[botId].targetUsername = targetUsername;
         res.json({ success: true });
     }
 
@@ -55,7 +63,7 @@ export class FollowController {
         const { botId } = req.body as IGetFollowersListBody;
         if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        const followerList = await this.bots[botId].follower.getList();
+        const followerList = await this.bots[botId].targetAccount.getList();
         res.json({ success: true, followerList });
     }
 
@@ -63,7 +71,7 @@ export class FollowController {
         const { botId, maxFollowers } = req.body as IFollowBody;
         if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        const result = await this.bots[botId].follower.startFollowing(maxFollowers);
+        const result = await this.bots[botId].targetAccount.startFollowing(maxFollowers);
         res.json({ success: true, ...result });
     }
 
@@ -71,7 +79,7 @@ export class FollowController {
         const { botId, usernameToUnfollow } = req.body as IUnfollowBody;
         if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        const success = await this.bots[botId].follower.unfollow(usernameToUnfollow);
+        const success = await this.bots[botId].targetAccount.unfollowUser(usernameToUnfollow);
         res.json({ success });
     }
 
@@ -82,6 +90,22 @@ export class FollowController {
         await this.bots[botId].close();
         this.bots[botId] = null;
         res.json({ success: true });
+    }
+
+    public async myFollowers(req: Request, res: Response) {
+        const { botId } = req.body as IMyFollowersBody;
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        
+        const followers = await this.bots[botId].profile.getFollowers();
+        res.json({ success: true, followers });
+    }
+
+    public async myFollowings(req: Request, res: Response) {
+        const { botId } = req.body as IMyFollowingsBody;
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+
+        const following = await this.bots[botId].profile.getFollowing();
+        res.json({ success: false, following });
     }
 
     public async screenshot(req: Request, res: Response) {

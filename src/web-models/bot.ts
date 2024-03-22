@@ -2,23 +2,34 @@ import { setTimeout } from 'timers/promises';
 import { writeFile } from 'fs/promises';
 import { InstagramData } from "./instagram-data";
 import { PuppeteerStarter } from "./puppeteer-starter";
-import { Follower } from './follower';
+import { TargetAccount } from './target-account';
+import { Profile } from './profile';
 
 export class Bot extends PuppeteerStarter {
 
     url: string;
-    follower: Follower;
+    targetAccount: TargetAccount;
+    profile: Profile;
 
     constructor(
-        public data: InstagramData
+        protected data: InstagramData
     ) {
         const url = "https://www.instagram.com";
         super(url);
         this.url = url;
     }
 
+    public get targetUsername() {
+        return this.data.targetUsername;
+    }
+
+    public set targetUsername(newUsername: string) {
+        this.targetAccount.targetUsername = this.data.targetUsername = newUsername;
+    }
+
     protected async afterStart() {
-        this.follower = new Follower(this.page, this.data.targetUsername);
+        this.targetAccount = new TargetAccount(this.page, this.data.targetUsername);
+        this.profile = new Profile(this.page, this.data.username);
     }
 
     public async login() {
@@ -43,15 +54,6 @@ export class Bot extends PuppeteerStarter {
             });
         } catch { }
 
-        // await this
-        //     .page
-        //     .frames()
-        //     .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
-        //     ?.$(".recaptcha-checkbox")
-        //     ?.then(
-        //         button => button.click()
-        //     );
-        // await this.page.solveRecaptchas();
         for (const frame of this.page.mainFrame().childFrames()) {
             await frame.solveRecaptchas()
         }

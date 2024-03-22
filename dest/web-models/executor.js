@@ -9,30 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Follower = void 0;
+exports.Executor = void 0;
 const promises_1 = require("timers/promises");
-class Follower {
-    constructor(page, targetUsername) {
-        this.page = page;
-        this.targetUsername = targetUsername;
-        this.url = `https://www.instagram.com/${this.targetUsername}/followers`;
-    }
-    goToPage() {
+class Executor {
+    follow(maxFollowers) {
         return __awaiter(this, void 0, void 0, function* () {
-            let currentUrl = this.page.url();
-            if (currentUrl.endsWith('/'))
-                currentUrl = currentUrl.substring(0, currentUrl.length - 1);
-            if (this.url === currentUrl)
-                return;
-            yield this.page.goto(this.url, {
-                waitUntil: 'networkidle0',
-            });
-        });
-    }
-    startFollowing(maxFollowers) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.goToPage();
-            yield (0, promises_1.setTimeout)(3000);
             const buttonsSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3 button";
             let followedCount = 0, nowFollowed = 0;
             const followedAccounts = [];
@@ -62,9 +43,8 @@ class Follower {
             return { nowFollowed, followedAccounts };
         });
     }
-    getList() {
+    list() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.goToPage();
             const followerSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3";
             let followerDivs = [];
             const list = [];
@@ -85,7 +65,6 @@ class Follower {
     }
     unfollow(usernameToUnfollow) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.goToPage();
             const followerSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3";
             let followerDivs = [];
             let matchedUsers = 0;
@@ -108,5 +87,5 @@ class Follower {
         });
     }
 }
-exports.Follower = Follower;
-//# sourceMappingURL=follower.js.map
+exports.Executor = Executor;
+//# sourceMappingURL=executor.js.map

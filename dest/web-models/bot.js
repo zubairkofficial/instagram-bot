@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bot = void 0;
 const promises_1 = require("timers/promises");
 const puppeteer_starter_1 = require("./puppeteer-starter");
-const follower_1 = require("./follower");
+const target_account_1 = require("./target-account");
+const profile_1 = require("./profile");
 class Bot extends puppeteer_starter_1.PuppeteerStarter {
     constructor(data) {
         const url = "https://www.instagram.com";
@@ -20,9 +21,16 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
         this.data = data;
         this.url = url;
     }
+    get targetUsername() {
+        return this.data.targetUsername;
+    }
+    set targetUsername(newUsername) {
+        this.targetAccount.targetUsername = this.data.targetUsername = newUsername;
+    }
     afterStart() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.follower = new follower_1.Follower(this.page, this.data.targetUsername);
+            this.targetAccount = new target_account_1.TargetAccount(this.page, this.data.targetUsername);
+            this.profile = new profile_1.Profile(this.page, this.data.username);
         });
     }
     login() {
@@ -45,15 +53,6 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                 });
             }
             catch (_b) { }
-            // await this
-            //     .page
-            //     .frames()
-            //     .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
-            //     ?.$(".recaptcha-checkbox")
-            //     ?.then(
-            //         button => button.click()
-            //     );
-            // await this.page.solveRecaptchas();
             for (const frame of this.page.mainFrame().childFrames()) {
                 yield frame.solveRecaptchas();
             }

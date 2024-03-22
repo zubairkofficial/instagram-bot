@@ -19,7 +19,7 @@ async function main() {
     // const followedCount = await bot.follower.startFollowing(data.maxFollowers);
     // console.log(`You are now following ${followedCount} followers of ${data.targetUsername}. Enjoy!`);
 
-    const followers = await bot.follower.getList();
+    const followers = await bot.targetAccount.getList();
     console.log(followers);
     fsp.writeFile(
         "result.json",

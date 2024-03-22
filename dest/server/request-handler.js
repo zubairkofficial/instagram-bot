@@ -19,6 +19,8 @@ class RequestHandler extends server_1.Server {
         this.app.post('/follow', followController.follow.bind(followController));
         this.app.post('/unfollow', followController.unfollow.bind(followController));
         this.app.post('/disconnect', followController.disconnect.bind(followController));
+        this.app.post('/my-followers', followController.myFollowers.bind(followController));
+        this.app.post('/my-following', followController.myFollowings.bind(followController));
         this.app.get('/screenshot/:botId', followController.screenshot.bind(followController));
         this.app.get('/code/:botId', followController.html.bind(followController));
         const adsController = new ads_controller_1.AdsController();

@@ -28,7 +28,7 @@ function main() {
         // console.log("Starting to follow.");
         // const followedCount = await bot.follower.startFollowing(data.maxFollowers);
         // console.log(`You are now following ${followedCount} followers of ${data.targetUsername}. Enjoy!`);
-        const followers = yield bot.follower.getList();
+        const followers = yield bot.targetAccount.getList();
         console.log(followers);
         promises_1.default.writeFile("result.json", JSON.stringify(followers));
         yield bot.close();

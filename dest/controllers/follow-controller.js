@@ -35,7 +35,7 @@ class FollowController {
             const { botId, targetUsername } = req.body;
             if (!this.botRunning(botId))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
-            this.bots[botId].data.targetUsername = targetUsername;
+            this.bots[botId].targetUsername = targetUsername;
             res.json({ success: true });
         });
     }
@@ -44,7 +44,7 @@ class FollowController {
             const { botId } = req.body;
             if (!this.botRunning(botId))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
-            const followerList = yield this.bots[botId].follower.getList();
+            const followerList = yield this.bots[botId].targetAccount.getList();
             res.json({ success: true, followerList });
         });
     }
@@ -53,7 +53,7 @@ class FollowController {
             const { botId, maxFollowers } = req.body;
             if (!this.botRunning(botId))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
-            const result = yield this.bots[botId].follower.startFollowing(maxFollowers);
+            const result = yield this.bots[botId].targetAccount.startFollowing(maxFollowers);
             res.json(Object.assign({ success: true }, result));
         });
     }
@@ -62,7 +62,7 @@ class FollowController {
             const { botId, usernameToUnfollow } = req.body;
             if (!this.botRunning(botId))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
-            const success = yield this.bots[botId].follower.unfollow(usernameToUnfollow);
+            const success = yield this.bots[botId].targetAccount.unfollowUser(usernameToUnfollow);
             res.json({ success });
         });
     }
@@ -74,6 +74,24 @@ class FollowController {
             yield this.bots[botId].close();
             this.bots[botId] = null;
             res.json({ success: true });
+        });
+    }
+    myFollowers(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { botId } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+            const followers = yield this.bots[botId].profile.getFollowers();
+            res.json({ success: true, followers });
+        });
+    }
+    myFollowings(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { botId } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+            const following = yield this.bots[botId].profile.getFollowing();
+            res.json({ success: false, following });
         });
     }
     screenshot(req, res) {
