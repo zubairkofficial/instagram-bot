@@ -52,11 +52,12 @@ export class Bot extends PuppeteerStarter {
         //         button => button.click()
         //     );
         // await this.page.solveRecaptchas();
-        await this
+        const captchaResult = await this
             .page
             .frames()
             .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
             .solveRecaptchas();
+        console.log(captchaResult);
 
         await setTimeout(500);
         await this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });
