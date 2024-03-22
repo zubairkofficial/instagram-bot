@@ -32,6 +32,7 @@ class PuppeteerStarter {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.usePlugins();
             this.browser = yield puppeteer_extra_1.default.launch({
                 defaultViewport: null,
                 headless: true,

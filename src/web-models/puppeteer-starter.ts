@@ -25,6 +25,7 @@ export abstract class PuppeteerStarter {
     }
 
     public async start() {
+        this.usePlugins();
         this.browser = await puppeteer.launch({
             defaultViewport: null,
             headless: true,
