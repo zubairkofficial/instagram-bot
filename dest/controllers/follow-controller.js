@@ -76,6 +76,15 @@ class FollowController {
             res.json({ success: true });
         });
     }
+    screenshot(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const botId = parseInt(req.params.botId);
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+            const screenshot = yield this.bots[botId].screenshot();
+            res.contentType(".jpg").send(screenshot);
+        });
+    }
 }
 exports.FollowController = FollowController;
 //# sourceMappingURL=follow-controller.js.map

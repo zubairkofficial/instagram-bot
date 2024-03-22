@@ -8,7 +8,6 @@ const ads_controller_1 = require("../controllers/ads-controller");
 class RequestHandler extends server_1.Server {
     constructor() {
         super();
-        this.routeForDebugging();
         this.route();
         this.start();
     }
@@ -19,6 +18,7 @@ class RequestHandler extends server_1.Server {
         this.app.post('/get-followers-list', followController.getFollowersList.bind(followController));
         this.app.post('/follow', followController.follow.bind(followController));
         this.app.post('/unfollow', followController.unfollow.bind(followController));
+        this.app.get('/screenshot/:botId', followController.screenshot.bind(followController));
         this.app.post('/disconnect', followController.disconnect.bind(followController));
         const adsController = new ads_controller_1.AdsController();
         this.app.post('/run-ad', adsController.runAd.bind(adsController));
@@ -26,11 +26,6 @@ class RequestHandler extends server_1.Server {
         this.app.get('/analytics', adsController.getAnalytics.bind(adsController));
         const exceptionController = new exception_controller_1.ExceptionController();
         this.app.use(exceptionController.handle.bind(exceptionController));
-    }
-    routeForDebugging() {
-        this.app.get('/screenshot', (req, res) => {
-            res.download('screenshot.jpg');
-        });
     }
 }
 exports.RequestHandler = RequestHandler;

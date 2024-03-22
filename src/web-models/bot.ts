@@ -60,7 +60,10 @@ export class Bot extends PuppeteerStarter {
         console.log(captchaResult);
 
         await setTimeout(500);
-        await this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });
+    }
+
+    public async screenshot() {
+        return await this.page.screenshot({ fullPage: true });
     }
 
     public async close() {

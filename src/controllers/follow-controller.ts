@@ -25,6 +25,10 @@ export interface IDisconnectBody {
     botId: number
 }
 
+export interface IScreenshotParams {
+    botId: string
+}
+
 export class FollowController {
     private bots: Bot[] = [];
 
@@ -82,5 +86,13 @@ export class FollowController {
         await this.bots[botId].close();
         this.bots[botId] = null;
         res.json({ success: true });
+    }
+
+    public async screenshot(req: Request, res: Response) {
+        const botId = parseInt(req.params.botId);
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+
+        const screenshot = await this.bots[botId].screenshot();
+        res.contentType(".jpg").send(screenshot);
     }
 }

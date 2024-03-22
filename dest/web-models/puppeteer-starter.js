@@ -36,7 +36,12 @@ class PuppeteerStarter {
             this.browser = yield puppeteer_extra_1.default.launch({
                 defaultViewport: null,
                 headless: true,
-                args: ["--no-sandbox", "--disable-blink-features=AutomationControlled"]
+                args: [
+                    "--no-sandbox",
+                    "--disable-blink-features=AutomationControlled",
+                    '--disable-features=IsolateOrigins,site-per-process,SitePerProcess',
+                    '--flag-switches-begin --disable-site-isolation-trials --flag-switches-end',
+                ]
             });
             this.page = yield this.browser.newPage();
             yield this.page.goto(this.url, {

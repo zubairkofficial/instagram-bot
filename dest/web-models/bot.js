@@ -61,7 +61,11 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
                 .solveRecaptchas();
             console.log(captchaResult);
             yield (0, promises_1.setTimeout)(500);
-            yield this.page.screenshot({ path: 'screenshot.jpg', fullPage: true });
+        });
+    }
+    screenshot() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.page.screenshot({ fullPage: true });
         });
     }
     close() {

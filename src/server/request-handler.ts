@@ -6,7 +6,6 @@ import { AdsController } from "../controllers/ads-controller";
 export class RequestHandler extends Server {
     constructor() {
         super();
-        this.routeForDebugging();
         this.route();
         this.start();
     }
@@ -18,6 +17,7 @@ export class RequestHandler extends Server {
         this.app.post('/get-followers-list', followController.getFollowersList.bind(followController));
         this.app.post('/follow', followController.follow.bind(followController));
         this.app.post('/unfollow', followController.unfollow.bind(followController));
+        this.app.get('/screenshot/:botId', followController.screenshot.bind(followController));
         this.app.post('/disconnect', followController.disconnect.bind(followController));
 
         const adsController = new AdsController();
@@ -27,11 +27,5 @@ export class RequestHandler extends Server {
         
         const exceptionController = new ExceptionController();
         this.app.use(exceptionController.handle.bind(exceptionController));
-    }
-
-    public routeForDebugging() {
-        this.app.get('/screenshot', (req, res) => {
-            res.download('screenshot.jpg');
-        });
     }
 }
