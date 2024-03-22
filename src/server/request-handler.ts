@@ -17,8 +17,9 @@ export class RequestHandler extends Server {
         this.app.post('/get-followers-list', followController.getFollowersList.bind(followController));
         this.app.post('/follow', followController.follow.bind(followController));
         this.app.post('/unfollow', followController.unfollow.bind(followController));
-        this.app.get('/screenshot/:botId', followController.screenshot.bind(followController));
         this.app.post('/disconnect', followController.disconnect.bind(followController));
+        this.app.get('/screenshot/:botId', followController.screenshot.bind(followController));
+        this.app.get('/code/:botId', followController.html.bind(followController));
 
         const adsController = new AdsController();
         this.app.post('/run-ad', adsController.runAd.bind(adsController));

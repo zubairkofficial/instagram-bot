@@ -63,6 +63,10 @@ export class Bot extends PuppeteerStarter {
         return await this.page.screenshot({ fullPage: true });
     }
 
+    public async html() {
+        return await this.page.content();
+    }
+
     public async close() {
         await this.browser.close();
     }

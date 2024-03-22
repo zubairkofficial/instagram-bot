@@ -65,6 +65,11 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             return yield this.page.screenshot({ fullPage: true });
         });
     }
+    html() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.page.content();
+        });
+    }
     close() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.browser.close();

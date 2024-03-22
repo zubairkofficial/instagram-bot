@@ -81,8 +81,17 @@ class FollowController {
             const botId = parseInt(req.params.botId);
             if (!this.botRunning(botId))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
-            const screenshot = yield this.bots[botId].screenshot();
-            res.contentType(".jpg").send(screenshot);
+            const image = yield this.bots[botId].screenshot();
+            res.contentType(".jpg").send(image);
+        });
+    }
+    html(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const botId = parseInt(req.params.botId);
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+            const code = yield this.bots[botId].html();
+            res.contentType(".html").send(code);
         });
     }
 }
