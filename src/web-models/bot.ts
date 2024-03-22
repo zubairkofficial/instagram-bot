@@ -52,12 +52,9 @@ export class Bot extends PuppeteerStarter {
         //         button => button.click()
         //     );
         // await this.page.solveRecaptchas();
-        const captchaResult = await this
-            .page
-            .frames()
-            .find(frame => frame.url().startsWith("https://www.google.com/recaptcha"))
-            .solveRecaptchas();
-        console.log(captchaResult);
+        for (const frame of this.page.mainFrame().childFrames()) {
+            await frame.solveRecaptchas()
+        }
 
         await setTimeout(500);
     }
