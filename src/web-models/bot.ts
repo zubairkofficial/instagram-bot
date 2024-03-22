@@ -56,6 +56,14 @@ export class Bot extends PuppeteerStarter {
             await frame.solveRecaptchas()
         }
 
+        try {
+            const nextButton = await this.page.waitForSelector("[role='button']");
+            await nextButton.click();
+            await this.page.waitForNavigation({
+                waitUntil: 'networkidle0',
+            });
+        } catch { }
+
         await setTimeout(500);
     }
 

@@ -57,6 +57,14 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             for (const frame of this.page.mainFrame().childFrames()) {
                 yield frame.solveRecaptchas();
             }
+            try {
+                const nextButton = yield this.page.waitForSelector("[role='button']");
+                yield nextButton.click();
+                yield this.page.waitForNavigation({
+                    waitUntil: 'networkidle0',
+                });
+            }
+            catch (_c) { }
             yield (0, promises_1.setTimeout)(500);
         });
     }
