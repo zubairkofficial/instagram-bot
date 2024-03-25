@@ -28,7 +28,7 @@ export abstract class PuppeteerStarter {
         this.usePlugins();
         this.browser = await puppeteer.launch({
             defaultViewport: null,
-            headless: false,
+            headless: true,
             args: [
                 "--no-sandbox",
                 "--disable-blink-features=AutomationControlled",

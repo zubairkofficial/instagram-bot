@@ -35,7 +35,7 @@ class PuppeteerStarter {
             this.usePlugins();
             this.browser = yield puppeteer_extra_1.default.launch({
                 defaultViewport: null,
-                headless: false,
+                headless: true,
                 args: [
                     "--no-sandbox",
                     "--disable-blink-features=AutomationControlled",
