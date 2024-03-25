@@ -23,9 +23,9 @@ class FollowController {
         return __awaiter(this, void 0, void 0, function* () {
             const data = instagram_data_1.InstagramData.getFromObject(req.body);
             const bot = new bot_1.Bot(data);
+            this.bots.push(bot);
             yield bot.start();
             yield bot.login();
-            this.bots.push(bot);
             const botId = this.bots.length - 1;
             res.json({ success: true, botId });
         });

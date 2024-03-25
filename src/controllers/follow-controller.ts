@@ -44,9 +44,10 @@ export class FollowController {
     public async connect(req: Request, res: Response) {
         const data = InstagramData.getFromObject(req.body);
         const bot = new Bot(data);
+        this.bots.push(bot);
+
         await bot.start();
         await bot.login();
-        this.bots.push(bot);
 
         const botId = this.bots.length - 1;
         res.json({ success: true, botId });
