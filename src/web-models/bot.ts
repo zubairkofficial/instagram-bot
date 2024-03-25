@@ -56,8 +56,6 @@ export class Bot extends PuppeteerStarter {
 
         await loginButton.click();
 
-        console.log("Login button clicked...");
-
         try {
             await this.page.waitForNavigation({
                 waitUntil: 'networkidle0',
