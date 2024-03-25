@@ -41,9 +41,11 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
     login() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const cookiesButton = yield this.page.waitForSelector("._a9--._ap36._a9_0");
+                const cookiesButton = yield this.page.waitForSelector("._a9--._ap36._a9_0", {
+                    timeout: 5000
+                });
                 yield cookiesButton.click();
-                yield (0, promises_1.setTimeout)(2000);
+                yield (0, promises_1.setTimeout)(1000);
             }
             catch (_a) { }
             const loginInput = yield this.page.waitForSelector("[name='username']");
