@@ -64,7 +64,7 @@ export abstract class Executor {
                 const followerInfo = await followerDiv.evaluate(
                     elm => ({
                         'username': elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent,
-                        // 'fullName': elm.querySelector(".x1lliihq.x193iq5w.x6ikm8r.x10wlt62.xlyipyv.xuxw1ft")?.textContent || "",
+                        'fullName': elm.querySelector(".x1lliihq.x193iq5w.x6ikm8r.x10wlt62.xlyipyv.xuxw1ft")?.textContent || "",
                         'buttonText': elm.querySelector('button').textContent.trim()
                     })
                 );
