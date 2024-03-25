@@ -107,7 +107,7 @@ export class FollowController {
         if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         const following = await this.bots[botId].profileFollowing.get();
-        res.json({ success: false, following });
+        res.json({ success: true, following });
     }
 
     public async screenshot(req: Request, res: Response) {
