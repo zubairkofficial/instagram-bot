@@ -36,10 +36,8 @@ export interface IMyFollowersBody {
 
 export class FollowController {
     private bots: Bot[] = [];
-    private locker: Locker = new Locker();
 
-    private async botRunning(id: number) {
-        await this.locker.whenUnlocked(id);
+    private botRunning(id: number) {
         return this.bots[id] ? true : false;
     }
 
@@ -56,78 +54,64 @@ export class FollowController {
 
     public async addTargetAccount(req: Request, res: Response) {
         const { botId, targetUsername } = req.body as IAddTargetAccountBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.locker.lock(botId);
         this.bots[botId].targetUsername = targetUsername;
         res.json({ success: true });
-        this.locker.unlock(botId);
     }
 
     public async getFollowersList(req: Request, res: Response) {
         const { botId } = req.body as IGetFollowersListBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.locker.lock(botId);
         const followerList = await this.bots[botId].targetAccount.getList();
         res.json({ success: true, followerList });
-        this.locker.unlock(botId);
     }
 
     public async follow(req: Request, res: Response) {
         const { botId, maxFollowers } = req.body as IFollowBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.locker.lock(botId);
         const result = await this.bots[botId].targetAccount.startFollowing(maxFollowers);
         res.json({ success: true, ...result });
-        this.locker.unlock(botId);
     }
 
     public async unfollow(req: Request, res: Response) {
         const { botId, usernameToUnfollow } = req.body as IUnfollowBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.locker.lock(botId);
         const success = await this.bots[botId].targetAccount.unfollowUser(usernameToUnfollow);
         res.json({ success });
-        this.locker.unlock(botId);
     }
 
     public async disconnect(req: Request, res: Response) {
         const { botId } = req.body as IDisconnectBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.locker.lock(botId);
         await this.bots[botId].close();
         this.bots[botId] = null;
         res.json({ success: true });
-        this.locker.unlock(botId);
     }
 
     public async myFollowers(req: Request, res: Response) {
         const { botId } = req.body as IMyFollowersBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
         
-        this.locker.lock(botId);
-        const followers = await this.bots[botId].profile.getFollowers();
+        const followers = await this.bots[botId].profileFollowers.get();
         res.json({ success: true, followers });
-        this.locker.unlock(botId);
     }
 
     public async myFollowings(req: Request, res: Response) {
         const { botId } = req.body as IMyFollowingsBody;
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
-        this.locker.lock(botId);
-        const following = await this.bots[botId].profile.getFollowing();
+        const following = await this.bots[botId].profileFollowing.get();
         res.json({ success: false, following });
-        this.locker.unlock(botId);
     }
 
     public async screenshot(req: Request, res: Response) {
         const botId = parseInt(req.params.botId);
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         const image = await this.bots[botId].screenshot();
         res.contentType(".jpg").send(image);
@@ -135,7 +119,7 @@ export class FollowController {
 
     public async html(req: Request, res: Response) {
         const botId = parseInt(req.params.botId);
-        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         const code = await this.bots[botId].html();
         res.contentType(".html").send(code);

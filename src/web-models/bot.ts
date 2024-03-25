@@ -3,13 +3,15 @@ import { writeFile } from 'fs/promises';
 import { InstagramData } from "./instagram-data";
 import { PuppeteerStarter } from "./puppeteer-starter";
 import { TargetAccount } from './target-account';
-import { Profile } from './profile';
+import { ProfileFollowers } from './profile-followers';
+import { ProfileFollowing } from './profile-following';
 
 export class Bot extends PuppeteerStarter {
 
     url: string;
     targetAccount: TargetAccount;
-    profile: Profile;
+    profileFollowers: ProfileFollowers;
+    profileFollowing: ProfileFollowing;
 
     constructor(
         protected data: InstagramData
@@ -28,8 +30,14 @@ export class Bot extends PuppeteerStarter {
     }
 
     protected async afterStart() {
-        this.targetAccount = new TargetAccount(this.page, this.data.targetUsername);
-        this.profile = new Profile(this.page, this.data.username);
+        const targetAccountPage = await this.browser.newPage();
+        this.targetAccount = new TargetAccount(targetAccountPage, this.data.targetUsername);
+
+        const profilePage1 = await this.browser.newPage();
+        this.profileFollowers = new ProfileFollowers(profilePage1, this.data.username);
+
+        const profilePage2 = await this.browser.newPage();
+        this.profileFollowing = new ProfileFollowing(profilePage2, this.data.username);
     }
 
     public async login() {

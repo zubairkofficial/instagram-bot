@@ -13,7 +13,8 @@ exports.Bot = void 0;
 const promises_1 = require("timers/promises");
 const puppeteer_starter_1 = require("./puppeteer-starter");
 const target_account_1 = require("./target-account");
-const profile_1 = require("./profile");
+const profile_followers_1 = require("./profile-followers");
+const profile_following_1 = require("./profile-following");
 class Bot extends puppeteer_starter_1.PuppeteerStarter {
     constructor(data) {
         const url = "https://www.instagram.com";
@@ -29,8 +30,12 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
     }
     afterStart() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.targetAccount = new target_account_1.TargetAccount(this.page, this.data.targetUsername);
-            this.profile = new profile_1.Profile(this.page, this.data.username);
+            const targetAccountPage = yield this.browser.newPage();
+            this.targetAccount = new target_account_1.TargetAccount(targetAccountPage, this.data.targetUsername);
+            const profilePage1 = yield this.browser.newPage();
+            this.profileFollowers = new profile_followers_1.ProfileFollowers(profilePage1, this.data.username);
+            const profilePage2 = yield this.browser.newPage();
+            this.profileFollowing = new profile_following_1.ProfileFollowing(profilePage2, this.data.username);
         });
     }
     login() {
