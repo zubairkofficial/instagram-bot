@@ -52,6 +52,7 @@ class Bot extends puppeteer_starter_1.PuppeteerStarter {
             yield loginInput.type(this.data.username);
             yield passwordInput.type(this.data.password);
             yield loginButton.click();
+            console.log("Login button clicked...");
             try {
                 yield this.page.waitForNavigation({
                     waitUntil: 'networkidle0',
