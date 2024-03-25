@@ -38,7 +38,7 @@ class FollowController {
     addTargetAccount(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, targetUsername } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             this.bots[botId].targetUsername = targetUsername;
@@ -49,7 +49,7 @@ class FollowController {
     getFollowersList(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             const followerList = yield this.bots[botId].targetAccount.getList();
@@ -60,7 +60,7 @@ class FollowController {
     follow(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, maxFollowers } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             const result = yield this.bots[botId].targetAccount.startFollowing(maxFollowers);
@@ -71,7 +71,7 @@ class FollowController {
     unfollow(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, usernameToUnfollow } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             const success = yield this.bots[botId].targetAccount.unfollowUser(usernameToUnfollow);
@@ -82,7 +82,7 @@ class FollowController {
     disconnect(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             yield this.bots[botId].close();
@@ -94,7 +94,7 @@ class FollowController {
     myFollowers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             const followers = yield this.bots[botId].profile.getFollowers();
@@ -105,7 +105,7 @@ class FollowController {
     myFollowings(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId } = req.body;
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             this.locker.lock(botId);
             const following = yield this.bots[botId].profile.getFollowing();
@@ -116,7 +116,7 @@ class FollowController {
     screenshot(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const botId = parseInt(req.params.botId);
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             const image = yield this.bots[botId].screenshot();
             res.contentType(".jpg").send(image);
@@ -125,7 +125,7 @@ class FollowController {
     html(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const botId = parseInt(req.params.botId);
-            if (!this.botRunning(botId))
+            if (!(yield this.botRunning(botId)))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             const code = yield this.bots[botId].html();
             res.contentType(".html").send(code);

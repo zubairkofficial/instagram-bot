@@ -56,7 +56,7 @@ export class FollowController {
 
     public async addTargetAccount(req: Request, res: Response) {
         const { botId, targetUsername } = req.body as IAddTargetAccountBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         this.locker.lock(botId);
         this.bots[botId].targetUsername = targetUsername;
@@ -66,7 +66,7 @@ export class FollowController {
 
     public async getFollowersList(req: Request, res: Response) {
         const { botId } = req.body as IGetFollowersListBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         this.locker.lock(botId);
         const followerList = await this.bots[botId].targetAccount.getList();
@@ -76,7 +76,7 @@ export class FollowController {
 
     public async follow(req: Request, res: Response) {
         const { botId, maxFollowers } = req.body as IFollowBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         this.locker.lock(botId);
         const result = await this.bots[botId].targetAccount.startFollowing(maxFollowers);
@@ -86,7 +86,7 @@ export class FollowController {
 
     public async unfollow(req: Request, res: Response) {
         const { botId, usernameToUnfollow } = req.body as IUnfollowBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         this.locker.lock(botId);
         const success = await this.bots[botId].targetAccount.unfollowUser(usernameToUnfollow);
@@ -96,7 +96,7 @@ export class FollowController {
 
     public async disconnect(req: Request, res: Response) {
         const { botId } = req.body as IDisconnectBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         this.locker.lock(botId);
         await this.bots[botId].close();
@@ -107,7 +107,7 @@ export class FollowController {
 
     public async myFollowers(req: Request, res: Response) {
         const { botId } = req.body as IMyFollowersBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
         
         this.locker.lock(botId);
         const followers = await this.bots[botId].profile.getFollowers();
@@ -117,7 +117,7 @@ export class FollowController {
 
     public async myFollowings(req: Request, res: Response) {
         const { botId } = req.body as IMyFollowingsBody;
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         this.locker.lock(botId);
         const following = await this.bots[botId].profile.getFollowing();
@@ -127,7 +127,7 @@ export class FollowController {
 
     public async screenshot(req: Request, res: Response) {
         const botId = parseInt(req.params.botId);
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         const image = await this.bots[botId].screenshot();
         res.contentType(".jpg").send(image);
@@ -135,7 +135,7 @@ export class FollowController {
 
     public async html(req: Request, res: Response) {
         const botId = parseInt(req.params.botId);
-        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+        if (!await this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         const code = await this.bots[botId].html();
         res.contentType(".html").send(code);
