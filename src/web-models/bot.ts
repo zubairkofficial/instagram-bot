@@ -42,6 +42,7 @@ export class Bot extends PuppeteerStarter {
 
     public async login() {
         try {
+            await this.page.screenshot();
             const cookiesButton = await this.page.waitForSelector("._a9--._ap36._a9_0", {
                 timeout: 5000
             });
