@@ -53,10 +53,14 @@ class Executor {
                 followerDivs = (yield this.page.$$(followerSelector)).splice(list.length);
                 for (const followerDiv of followerDivs) {
                     followerDiv.scrollIntoView();
-                    const followerInfo = yield followerDiv.evaluate(elm => ({
-                        'username': elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent,
-                        'buttonText': elm.querySelector('button').textContent.trim()
-                    }));
+                    const followerInfo = yield followerDiv.evaluate(elm => {
+                        var _a;
+                        return ({
+                            'username': elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent,
+                            'fullName': ((_a = elm.querySelector(".x1lliihq.x193iq5w.x6ikm8r.x10wlt62.xlyipyv.xuxw1ft")) === null || _a === void 0 ? void 0 : _a.textContent) || "",
+                            'buttonText': elm.querySelector('button').textContent.trim()
+                        });
+                    });
                     list.push(followerInfo);
                 }
             } while (followerDivs.length > 0);
