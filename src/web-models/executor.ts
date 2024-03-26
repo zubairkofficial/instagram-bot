@@ -65,7 +65,8 @@ export abstract class Executor {
                     elm => ({
                         'username': elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent,
                         'fullName': elm.querySelector(".x1lliihq.x193iq5w.x6ikm8r.x10wlt62.xlyipyv.xuxw1ft")?.textContent || "",
-                        'buttonText': elm.querySelector('button').textContent.trim()
+                        'buttonText': elm.querySelector('button').textContent.trim(),
+                        'imageUrl': elm.querySelector('img').src
                     })
                 );
 
@@ -96,6 +97,34 @@ export abstract class Executor {
                     (await followerDiv.$("button")).click();
                     await setTimeout(1000);
                     (await followerDiv.$("._a9--._ap36._a9-_")).click();
+                    return true;
+                }
+                
+                matchedUsers++;
+            }
+        } while (followerDivs.length > 0);
+
+        return false;
+    }
+
+    protected async clickButton(usernameToClick: string) {
+        const followerSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3";
+        let followerDivs: ElementHandle<Element>[] = [];
+        let matchedUsers = 0;
+
+        do {
+            await setTimeout(5000);
+            followerDivs = (await this.page.$$(followerSelector)).splice(matchedUsers);
+
+            for (const followerDiv of followerDivs) {
+                followerDiv.scrollIntoView();
+
+                const username = await followerDiv.evaluate(
+                    elm => elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent
+                );
+
+                if (usernameToClick === username) {
+                    (await followerDiv.$("button")).click();
                     return true;
                 }
                 

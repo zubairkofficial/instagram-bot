@@ -26,4 +26,9 @@ export class ProfileFollowers extends Executor {
         await this.goToPage();
         return await this.list();
     }
+
+    public async click(username: string) {
+        await this.goToPage();
+        return await this.clickButton(username);
+    }
 }

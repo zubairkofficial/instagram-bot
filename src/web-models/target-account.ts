@@ -39,4 +39,9 @@ export class TargetAccount extends Executor {
         await this.goToPage();
         return await this.unfollow(usernameToUnfollow);
     }
+
+    public async click(username: string) {
+        await this.goToPage();
+        return await this.clickButton(username);
+    }
 }

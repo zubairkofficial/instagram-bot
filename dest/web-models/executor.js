@@ -58,7 +58,8 @@ class Executor {
                         return ({
                             'username': elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent,
                             'fullName': ((_a = elm.querySelector(".x1lliihq.x193iq5w.x6ikm8r.x10wlt62.xlyipyv.xuxw1ft")) === null || _a === void 0 ? void 0 : _a.textContent) || "",
-                            'buttonText': elm.querySelector('button').textContent.trim()
+                            'buttonText': elm.querySelector('button').textContent.trim(),
+                            'imageUrl': elm.querySelector('img').src
                         });
                     });
                     list.push(followerInfo);
@@ -82,6 +83,27 @@ class Executor {
                         (yield followerDiv.$("button")).click();
                         yield (0, promises_1.setTimeout)(1000);
                         (yield followerDiv.$("._a9--._ap36._a9-_")).click();
+                        return true;
+                    }
+                    matchedUsers++;
+                }
+            } while (followerDivs.length > 0);
+            return false;
+        });
+    }
+    clickButton(usernameToClick) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const followerSelector = ".x1dm5mii.x16mil14.xiojian.x1yutycm.x1lliihq.x193iq5w.xh8yej3";
+            let followerDivs = [];
+            let matchedUsers = 0;
+            do {
+                yield (0, promises_1.setTimeout)(5000);
+                followerDivs = (yield this.page.$$(followerSelector)).splice(matchedUsers);
+                for (const followerDiv of followerDivs) {
+                    followerDiv.scrollIntoView();
+                    const username = yield followerDiv.evaluate(elm => elm.querySelector("._ap3a._aaco._aacw._aacx._aad7._aade").textContent);
+                    if (usernameToClick === username) {
+                        (yield followerDiv.$("button")).click();
                         return true;
                     }
                     matchedUsers++;

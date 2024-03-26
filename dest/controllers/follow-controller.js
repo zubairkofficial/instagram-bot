@@ -57,6 +57,25 @@ class FollowController {
             res.json(Object.assign({ success: true }, result));
         });
     }
+    clickAssociatedButton(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { botId, page, username } = req.body;
+            if (!this.botRunning(botId))
+                return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+            switch (page) {
+                case "profile-followers":
+                    yield this.bots[botId].profileFollowers.click(username);
+                    break;
+                case "profile-following":
+                    yield this.bots[botId].profileFollowing.click(username);
+                    break;
+                case "target-account":
+                    yield this.bots[botId].targetAccount.click(username);
+                    break;
+            }
+            res.json({ success: true });
+        });
+    }
     unfollow(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { botId, usernameToUnfollow } = req.body;

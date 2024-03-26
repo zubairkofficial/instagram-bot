@@ -52,6 +52,12 @@ class TargetAccount extends executor_1.Executor {
             return yield this.unfollow(usernameToUnfollow);
         });
     }
+    click(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.goToPage();
+            return yield this.clickButton(username);
+        });
+    }
 }
 exports.TargetAccount = TargetAccount;
 //# sourceMappingURL=target-account.js.map

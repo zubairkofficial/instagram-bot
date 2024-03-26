@@ -34,6 +34,12 @@ export interface IMyFollowersBody {
     botId: number
 }
 
+export interface IClickAssociatedButtonBody {
+    botId: number,
+    page: 'profile-followers' | 'profile-following' | 'target-account',
+    username: string
+}
+
 export class FollowController {
     private bots: Bot[] = [];
 
@@ -75,6 +81,25 @@ export class FollowController {
 
         const result = await this.bots[botId].targetAccount.startFollowing(maxFollowers);
         res.json({ success: true, ...result });
+    }
+
+    public async clickAssociatedButton(req: Request, res: Response) {
+        const { botId, page, username } = req.body as IClickAssociatedButtonBody;
+        if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
+
+        switch (page) {
+            case "profile-followers":
+                await this.bots[botId].profileFollowers.click(username);
+                break;
+            case "profile-following":
+                await this.bots[botId].profileFollowing.click(username);
+                break;
+            case "target-account":
+                await this.bots[botId].targetAccount.click(username);
+                break;
+        }
+
+        res.json({ success: true });
     }
 
     public async unfollow(req: Request, res: Response) {

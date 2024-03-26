@@ -37,6 +37,12 @@ class ProfileFollowers extends executor_1.Executor {
             return yield this.list();
         });
     }
+    click(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.goToPage();
+            return yield this.clickButton(username);
+        });
+    }
 }
 exports.ProfileFollowers = ProfileFollowers;
 //# sourceMappingURL=profile-followers.js.map
