@@ -52,11 +52,13 @@ export class Bot extends PuppeteerStarter {
 
         const loginInput = await this.page.waitForSelector("[name='username']");
         const passwordInput = await this.page.waitForSelector("[name='password']");
-        const loginButton = await this.page.waitForSelector("form [type='submit']");
-
+        
         await loginInput.type(this.data.username);
         await passwordInput.type(this.data.password);
+        
+        await setTimeout(1000);
 
+        const loginButton = await this.page.waitForSelector("form [type='submit']");
         await loginButton.click();
 
         try {
