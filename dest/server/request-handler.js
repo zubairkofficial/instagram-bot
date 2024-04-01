@@ -13,7 +13,6 @@ class RequestHandler extends server_1.Server {
     }
     route() {
         const followController = new follow_controller_1.FollowController();
-        this.app.get('/test', function(req, res){ res.json({"message": "Success"}); });
         this.app.post('/connect', followController.connect.bind(followController));
         this.app.post('/add-target-account', followController.addTargetAccount.bind(followController));
         this.app.post('/get-followers-list', followController.getFollowersList.bind(followController));

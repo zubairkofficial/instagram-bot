@@ -45,7 +45,8 @@ class FollowController {
             if (!this.botRunning(botId))
                 return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
             const followerList = yield this.bots[botId].targetAccount.getList();
-            res.json({ success: true, followerList });
+            const targetUsername = yield this.bots[botId].targetAccount.targetUsername;
+            res.json({ success: true, followerList, targetUsername });
         });
     }
     follow(req, res) {

@@ -72,7 +72,8 @@ export class FollowController {
         if (!this.botRunning(botId)) return res.json({ success: false, error: "BOT_NOT_RUNNUNG" });
 
         const followerList = await this.bots[botId].targetAccount.getList();
-        res.json({ success: true, followerList });
+        const targetUsername = await this.bots[botId].targetAccount.targetUsername;
+        res.json({ success: true, followerList, targetUsername });
     }
 
     public async follow(req: Request, res: Response) {
